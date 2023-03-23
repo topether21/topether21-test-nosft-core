@@ -1,9 +1,8 @@
-import { omit } from 'lodash';
 import axios from 'axios';
 import { Inscription, RawInscription, RawUtxo } from './types';
 import { BLOCKSTREAM_API, TURBO_API } from './constants';
 
-const getInscriptions = async (
+const getInscriptionsData = async (
   address: string
 ): Promise<Array<RawInscription>> =>
   (await axios.get(`${TURBO_API}/wallet/${address}/inscriptions`)).data;
@@ -27,32 +26,38 @@ const getUtxoForInscription = async (
   const utxo: RawUtxo = (await axios.get(`${BLOCKSTREAM_API}/tx/${txid}`)).data;
   const { value } =
     utxo.vout.find((v) => v.scriptpubkey_address === address) || {};
+  const { version, locktime, size, weight, fee, status } = utxo;
   return {
-    ...omit(utxo, 'vin', 'vout'),
+    version,
+    locktime,
+    size,
+    weight,
+    fee,
+    status,
     inscriptionId: inscription?.id,
     ...inscription,
     value,
   };
 };
 
-interface GetInscriptionsWithUtxoProps {
+interface GetInscriptionsProps {
   address: string;
   offset: number;
   limit: number;
 }
 
-export const getInscriptionsWithUtxo = async ({
+export const getInscriptions = async ({
   address,
-  offset,
+  offset = 0,
   limit,
-}: GetInscriptionsWithUtxoProps) => {
+}: GetInscriptionsProps) => {
   const from = offset;
   const to = from + limit;
-  const data = await getInscriptions(address);
-  const inscriptions = data?.slice(from, to);
+  const inscriptionsData = await getInscriptionsData(address);
+  const inscriptionsSlice = inscriptionsData?.slice(from, to);
   const inscriptionsWithUtxo = (
     await Promise.allSettled(
-      inscriptions.map((inscription) =>
+      inscriptionsSlice.map((inscription) =>
         getUtxoForInscription(inscription, address)
       )
     )
@@ -62,8 +67,8 @@ export const getInscriptionsWithUtxo = async ({
     // @ts-ignore
     .map((i) => i.value as Inscription);
   const result = {
-    inscriptionsWithUtxo,
-    count: data.length,
+    inscriptions: inscriptionsWithUtxo,
+    count: inscriptionsData.length,
     size: inscriptionsWithUtxo.length,
   };
   return result;
