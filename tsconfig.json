@@ -3,6 +3,8 @@
   "compilerOptions": {
     "moduleResolution": "Node",
     "module": "esnext",
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"]
