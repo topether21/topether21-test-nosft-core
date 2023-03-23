@@ -1,7 +1,7 @@
-import { BLOCKSTREAM_API, TURBO_API } from '~/constants';
 import { omit } from 'lodash';
 import axios from 'axios';
-import { RawInscription, RawUtxo } from '~/types';
+import { Inscription, RawInscription, RawUtxo } from './types';
+import { BLOCKSTREAM_API, TURBO_API } from './constants';
 
 const getInscriptions = async (
   address: string

@@ -1,6 +1,6 @@
 {
   "name": "test-nosft-core2",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "author": "topether21",
   "main": "dist/index.js",
@@ -12,11 +12,11 @@
   ],
   "scripts": {
     "analyze": "size-limit --why",
-    "build": "dts build",
+    "build": "dts build --rollupTypes",
     "lint": "dts lint",
     "prepare": "dts build",
     "size": "size-limit",
-    "start": "dts watch",
+    "start": "dts watch --rollupTypes",
     "test": "dts test"
   },
   "husky": {
@@ -44,6 +44,7 @@
     }
   ],
   "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.3",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@tsconfig/recommended": "^1.0.2",
     "@types/lodash": "^4.14.191",

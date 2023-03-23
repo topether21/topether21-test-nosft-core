@@ -1,1 +1,1 @@
-export { getInscriptionsWithUtxo } from '~/services';
+export { getInscriptionsWithUtxo } from './services';
