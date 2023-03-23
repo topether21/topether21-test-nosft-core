@@ -1,5 +1,8 @@
 import * as bitcoin from 'bitcoinjs-lib';
+import * as ecc from 'tiny-secp256k1';
 import { TESTNET } from './constants';
+
+bitcoin.initEccLib(ecc);
 
 export const getAddress = (nostrPublicKey: string) => {
   const pubkeyBuffer = Buffer.from(nostrPublicKey, 'hex');

@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { Inscription, RawInscription, RawUtxo } from './types';
 import { BLOCKSTREAM_API, TURBO_API } from './constants';
+import axios from 'axios';
 
 const getInscriptionsData = async (
   address: string
