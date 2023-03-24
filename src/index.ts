@@ -1,2 +1,2 @@
-export { getInscriptions } from './services';
-export { getAddress } from './crypto';
+export { getInscriptions } from './inscription';
+export { getAddress } from './address';

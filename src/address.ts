@@ -12,3 +12,6 @@ export const getAddress = (nostrPublicKey: string) => {
   });
   return addrInfo;
 };
+
+export const toXOnly = (key: Buffer) =>
+  key.length === 33 ? key.slice(1, 33) : key;
